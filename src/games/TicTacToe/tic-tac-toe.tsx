@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from "react";
 import Confetti from "react-confetti";
+import { useNavigate } from "react-router-dom";
 import "./style.css";
 
 const App: React.FC = () => {
   const [board, setBoard] = useState<string[]>(Array(9).fill(""));
   const [currentPlayer, setCurrentPlayer] = useState<"X" | "O">("X");
   const [winner, setWinner] = useState<string | null>(null);
+  const [isDraw, setIsDraw] = useState<boolean>(false);
+  const [scores, setScores] = useState<{ X: number; O: number }>({ X: 0, O: 0 });
   const [windowDimensions, setWindowDimensions] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleResize = () => {
@@ -50,7 +54,7 @@ const App: React.FC = () => {
   };
 
   const handleClick = (index: number) => {
-    if (board[index] || winner) return;
+    if (board[index] || winner || isDraw) return;
 
     const newBoard = [...board];
     newBoard[index] = currentPlayer;
@@ -59,6 +63,12 @@ const App: React.FC = () => {
     const newWinner = checkWinner(newBoard);
     if (newWinner) {
       setWinner(newWinner);
+      setScores(prevScores => ({
+        ...prevScores,
+        [newWinner]: prevScores[newWinner as keyof typeof prevScores] + 1
+      }));
+    } else if (newBoard.every(cell => cell !== "")) {
+      setIsDraw(true);
     } else {
       setCurrentPlayer(currentPlayer === "X" ? "O" : "X");
     }
@@ -68,6 +78,11 @@ const App: React.FC = () => {
     setBoard(Array(9).fill(""));
     setCurrentPlayer("X");
     setWinner(null);
+    setIsDraw(false);
+  };
+
+  const handleReturnHome = () => {
+    navigate("/");
   };
 
   return (
@@ -81,6 +96,16 @@ const App: React.FC = () => {
         />
       )}
       <h1>Tic Tac Toe</h1>
+      <div className="score-board">
+        <div className="score-item">
+          <span className="player">X</span>
+          <span className="score">{scores.X}</span>
+        </div>
+        <div className="score-item">
+          <span className="player">O</span>
+          <span className="score">{scores.O}</span>
+        </div>
+      </div>
       <div className="board">
         {[0, 1, 2].map((row) => (
           <div key={row} style={{ display: "flex" }}>
@@ -90,13 +115,7 @@ const App: React.FC = () => {
                 <button
                   key={index}
                   onClick={() => handleClick(index)}
-                  style={{
-                    width: "100px",
-                    height: "100px",
-                    fontSize: "24px",
-                    fontWeight: "bold",
-                    margin: "2px",
-                  }}
+                  className="cell"
                 >
                   {board[index]}
                 </button>
@@ -107,13 +126,33 @@ const App: React.FC = () => {
       </div>
       <div className="game-info">
         {winner ? (
-          <p>Le gagnant est : {winner}</p>
+          <>
+            <p>Le gagnant est : {winner}</p>
+            <button onClick={resetGame} className="reset-button">
+              Recommencer
+            </button>
+            <button onClick={handleReturnHome} className="home-button">
+              Retour à l'accueil
+            </button>
+          </>
+        ) : isDraw ? (
+          <>
+            <p>Match nul !</p>
+            <button onClick={resetGame} className="reset-button">
+              Recommencer
+            </button>
+            <button onClick={handleReturnHome} className="home-button">
+              Retour à l'accueil
+            </button>
+          </>
         ) : (
-          <p>Joueur actuel : {currentPlayer}</p>
+          <>
+            <p>Joueur actuel : {currentPlayer}</p>
+            <button onClick={resetGame} className="reset-button">
+              Recommencer
+            </button>
+          </>
         )}
-        <button onClick={resetGame} className="reset-button">
-          Recommencer
-        </button>
       </div>
     </div>
   );
