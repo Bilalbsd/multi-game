@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./style.css";
+import "./flag-guesser.style.css";
 import Confetti from "react-confetti";
 import { useNavigate } from "react-router-dom";
 

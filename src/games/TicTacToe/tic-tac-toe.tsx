@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 import Confetti from "react-confetti";
 import { useNavigate } from "react-router-dom";
-import "./style.css";
+import "./tic-tac-toe.style.css";
 
 const App: React.FC = () => {
   const [board, setBoard] = useState<string[]>(Array(9).fill(""));
   const [currentPlayer, setCurrentPlayer] = useState<"X" | "O">("X");
   const [winner, setWinner] = useState<string | null>(null);
   const [isDraw, setIsDraw] = useState<boolean>(false);
-  const [scores, setScores] = useState<{ X: number; O: number }>({ X: 0, O: 0 });
+  const [scores, setScores] = useState<{ X: number; O: number }>({
+    X: 0,
+    O: 0,
+  });
   const [windowDimensions, setWindowDimensions] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
@@ -63,11 +66,11 @@ const App: React.FC = () => {
     const newWinner = checkWinner(newBoard);
     if (newWinner) {
       setWinner(newWinner);
-      setScores(prevScores => ({
+      setScores((prevScores) => ({
         ...prevScores,
-        [newWinner]: prevScores[newWinner as keyof typeof prevScores] + 1
+        [newWinner]: prevScores[newWinner as keyof typeof prevScores] + 1,
       }));
-    } else if (newBoard.every(cell => cell !== "")) {
+    } else if (newBoard.every((cell) => cell !== "")) {
       setIsDraw(true);
     } else {
       setCurrentPlayer(currentPlayer === "X" ? "O" : "X");
