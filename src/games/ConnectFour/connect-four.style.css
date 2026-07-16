@@ -2,21 +2,25 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  box-sizing: border-box;
+  background-color: #f0f8ff;
   font-family: Arial, sans-serif;
 }
 
-.board {
+.connect-four .board {
   background-color: #0066cc;
   border: 2px solid #003366;
   padding: 10px;
   border-radius: 10px;
 }
 
-.row {
+.connect-four .row {
   display: flex;
 }
 
-.cell {
+.connect-four .cell {
   width: 50px;
   height: 50px;
   background-color: #ffffff;
@@ -26,26 +30,26 @@
   transition: background-color 0.3s;
 }
 
-.cell:hover {
+.connect-four .cell:hover {
   background-color: #e6e6e6;
 }
 
-.cell.player1 {
+.connect-four .cell.player1 {
   background-color: #ff4136;
 }
 
-.cell.player2 {
+.connect-four .cell.player2 {
   background-color: #ffdc00;
 }
 
-.winner {
+.connect-four .winner {
   margin-top: 20px;
   font-size: 24px;
   font-weight: bold;
   text-align: center;
 }
 
-.winner button {
+.connect-four .winner button {
   margin-top: 10px;
   padding: 10px 20px;
   font-size: 16px;
@@ -56,11 +60,11 @@
   cursor: pointer;
 }
 
-.winner button:hover {
+.connect-four .winner button:hover {
   background-color: #45a049;
 }
 
-.current-player {
+.connect-four .current-player {
   margin-top: 20px;
   font-size: 18px;
 }

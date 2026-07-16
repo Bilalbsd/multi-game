@@ -128,12 +128,12 @@ const FlagGuesser: React.FC = () => {
   };
 
   if (isLoading) {
-    return <div>Chargement...</div>;
+    return <div className="flag-guesser">Chargement...</div>;
   }
 
   if (gameOver) {
     return (
-      <div className="game-container">
+      <div className="flag-guesser">
         <div className="game-over">
           {showConfetti && <Confetti />}
           <h1>Fin du jeu!</h1>
@@ -148,7 +148,7 @@ const FlagGuesser: React.FC = () => {
   }
 
   return (
-    <div className="game-container">
+    <div className="flag-guesser">
       <div className="quiz-container">
         {showConfetti && <Confetti />}
         <div className="header">

@@ -1,14 +1,14 @@
-body {
+.flag-guesser {
   font-family: "Arial", sans-serif;
   background-color: #f0f0f0;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  margin: 0;
+  min-height: 100vh;
+  box-sizing: border-box;
 }
 
-.quiz-container {
+.flag-guesser .quiz-container {
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -17,30 +17,30 @@ body {
   max-width: 600px;
 }
 
-.header {
+.flag-guesser .header {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
 }
 
-.flag-container {
+.flag-guesser .flag-container {
   text-align: center;
   margin-bottom: 20px;
 }
 
-.flag-container img {
+.flag-guesser .flag-container img {
   max-width: 100%;
   height: auto;
   border: 1px solid #ddd;
 }
 
-.options-container {
+.flag-guesser .options-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;
 }
 
-button {
+.flag-guesser button {
   background-color: #4caf50;
   border: none;
   color: white;
@@ -55,14 +55,14 @@ button {
   transition: background-color 0.3s;
 }
 
-button:hover {
+.flag-guesser button:hover {
   background-color: #45a049;
 }
 
-.game-over {
+.flag-guesser .game-over {
   text-align: center;
 }
 
-.game-over h1 {
+.flag-guesser .game-over h1 {
   color: #4caf50;
 }
