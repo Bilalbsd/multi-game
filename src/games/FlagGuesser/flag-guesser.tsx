@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./flag-guesser.style.css";
 import Confetti from "react-confetti";
-import { useNavigate } from "react-router-dom";
+import { FaRedoAlt } from "react-icons/fa";
+import GameLayout from "../../components/GameLayout/GameLayout";
 
 interface Flag {
   name: string;
@@ -17,8 +18,8 @@ const FlagGuesser: React.FC = () => {
   const [gameOver, setGameOver] = useState<boolean>(false);
   const [options, setOptions] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [hasLoadError, setHasLoadError] = useState<boolean>(false);
   const [showConfetti, setShowConfetti] = useState<boolean>(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchFlags = async () => {
@@ -40,6 +41,7 @@ const FlagGuesser: React.FC = () => {
         setIsLoading(false);
       } catch (error) {
         console.error("Erreur lors de la récupération des drapeaux:", error);
+        setHasLoadError(true);
         setIsLoading(false);
       }
     };
@@ -120,56 +122,103 @@ const FlagGuesser: React.FC = () => {
     setLives(3);
     setGameOver(false);
     setShowConfetti(false);
-    startNewQuestion();
   };
-
-  const handleReturnHome = () => {
-    navigate("/");
-  };
-
-  if (isLoading) {
-    return <div className="flag-guesser">Chargement...</div>;
-  }
-
-  if (gameOver) {
-    return (
-      <div className="flag-guesser">
-        <div className="game-over">
-          {showConfetti && <Confetti />}
-          <h1>Fin du jeu!</h1>
-          <p>Votre score: {score} / 10</p>
-          <button onClick={resetGame}>Recommencer</button>
-          <button onClick={handleReturnHome} className="home-button">
-            Retour à l'accueil
-          </button>
-        </div>
-      </div>
-    );
-  }
 
   return (
-    <div className="flag-guesser">
-      <div className="quiz-container">
-        {showConfetti && <Confetti />}
-        <div className="header">
-          <span>Question: {currentQuestion} / 10</span>
-          <span>Vies: {"❤️".repeat(lives)}</span>
-          <span>Score: {score}</span>
-        </div>
-        <div className="flag-container">
-          {currentFlag && (
-            <img src={currentFlag.flag} alt="Drapeau à deviner" />
-          )}
-        </div>
-        <div className="options-container">
-          {options.map((option, index) => (
-            <button key={index} onClick={() => handleAnswer(option)}>
-              {option}
+    <GameLayout
+      accent="cyan"
+      eyebrow="Tour du monde"
+      title="Quiz des drapeaux"
+      description="Observez le drapeau, choisissez le bon pays et conservez vos trois vies."
+    >
+      <div className="flag-guesser">
+        {showConfetti && <Confetti recycle={false} numberOfPieces={420} />}
+
+        {isLoading ? (
+          <section className="quiz-container game-panel loading-state" role="status" aria-live="polite">
+            <span className="loading-spinner" aria-hidden="true" />
+            <h2>Préparation du voyage…</h2>
+            <p>Nous rassemblons les drapeaux du monde.</p>
+          </section>
+        ) : hasLoadError ? (
+          <section
+            className="quiz-container game-panel load-error"
+            role="alert"
+            aria-labelledby="flag-error-title"
+          >
+            <p className="result-kicker">Connexion interrompue</p>
+            <h2 id="flag-error-title">Impossible de charger les drapeaux</h2>
+            <p>Vérifiez votre connexion, puis réessayez dans un instant.</p>
+            <button
+              type="button"
+              onClick={() => window.location.reload()}
+              className="app-button app-button--primary"
+            >
+              <FaRedoAlt aria-hidden="true" />
+              Réessayer
             </button>
-          ))}
-        </div>
+          </section>
+        ) : gameOver ? (
+          <section
+            className="quiz-container game-panel game-over"
+            aria-labelledby="quiz-result-title"
+            role="status"
+            aria-live="assertive"
+          >
+            <p className="result-kicker">Partie terminée</p>
+            <h2 id="quiz-result-title">
+              {score >= 8 ? "Explorateur confirmé !" : "Beau voyage !"}
+            </h2>
+            <div className="result-score">
+              <strong>{score}</strong>
+              <span>/ 10 bonnes réponses</span>
+            </div>
+            <button type="button" onClick={resetGame} className="app-button app-button--primary">
+              <FaRedoAlt aria-hidden="true" />
+              Rejouer
+            </button>
+          </section>
+        ) : (
+          <section className="quiz-container game-panel" aria-label="Question en cours">
+            <div className="quiz-stats" aria-label="Progression du quiz">
+              <div className="stat-item">
+                <span>Question</span>
+                <strong>{currentQuestion}<small>/10</small></strong>
+              </div>
+              <div className="stat-item stat-item--lives">
+                <span>Vies</span>
+                <strong aria-label={`${lives} vies restantes`}>{"♥".repeat(lives)}</strong>
+              </div>
+              <div className="stat-item">
+                <span>Score</span>
+                <strong>{score}</strong>
+              </div>
+            </div>
+
+            <div className="flag-container">
+              {currentFlag && <img src={currentFlag.flag} alt="Drapeau à deviner" />}
+            </div>
+
+            <p className="question-prompt" role="status" aria-live="polite">
+              Question {currentQuestion} sur 10 : à quel pays appartient ce drapeau ?
+            </p>
+
+            <div className="options-container">
+              {options.map((option, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  className="answer-button"
+                  onClick={() => handleAnswer(option)}
+                >
+                  {option}
+                </button>
+              ))}
+            </div>
+          </section>
+        )}
       </div>
-    </div>
+    </GameLayout>
   );
 };
 
