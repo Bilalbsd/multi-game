@@ -1,22 +1,19 @@
-body {
+.tic-tac-toe {
   font-family: "Comic Sans MS", cursive, sans-serif;
   background-color: #f0f8ff;
-  margin: 0;
-  padding: 0;
-}
-
-.game-container {
+  box-sizing: border-box;
+  min-height: 100vh;
+  padding-top: 50px;
   text-align: center;
-  margin-top: 50px;
 }
 
-h1 {
+.tic-tac-toe h1 {
   color: #ff69b4;
   font-size: 48px;
   text-shadow: 2px 2px #ffd700;
 }
 
-.board {
+.tic-tac-toe .board {
   display: inline-block;
   background-color: #ffd700;
   border-radius: 10px;
@@ -24,11 +21,11 @@ h1 {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
-.board-row {
+.tic-tac-toe .board-row {
   display: flex;
 }
 
-.cell {
+.tic-tac-toe .cell {
   width: 100px;
   height: 100px;
   font-size: 48px;
@@ -42,18 +39,18 @@ h1 {
   transition: all 0.3s ease;
 }
 
-.cell:hover {
+.tic-tac-toe .cell:hover {
   background-color: #ffe4e1;
   transform: scale(1.05);
 }
 
-.game-info {
+.tic-tac-toe .game-info {
   margin-top: 20px;
   font-size: 24px;
   color: #4b0082;
 }
 
-.reset-button {
+.tic-tac-toe .reset-button {
   margin-top: 20px;
   padding: 10px 20px;
   font-size: 18px;
@@ -66,7 +63,24 @@ h1 {
   transition: all 0.3s ease;
 }
 
-.reset-button:hover {
+.tic-tac-toe .reset-button:hover {
   background-color: #ff1493;
   transform: scale(1.1);
+}
+
+.tic-tac-toe .home-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 18px;
+  font-weight: bold;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.tic-tac-toe .home-button:hover {
+  background-color: #45a049;
 }

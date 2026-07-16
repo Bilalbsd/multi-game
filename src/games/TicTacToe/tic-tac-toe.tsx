@@ -89,7 +89,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="game-container">
+    <div className="tic-tac-toe">
       {winner && (
         <Confetti
           width={windowDimensions.width}
@@ -111,7 +111,7 @@ const App: React.FC = () => {
       </div>
       <div className="board">
         {[0, 1, 2].map((row) => (
-          <div key={row} style={{ display: "flex" }}>
+          <div key={row} className="board-row">
             {[0, 1, 2].map((col) => {
               const index = row * 3 + col;
               return (

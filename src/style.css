@@ -1,5 +1,5 @@
 body {
-  overflow: hidden;
+  margin: 0;
 }
 
 .home-container {
@@ -9,6 +9,9 @@ body {
   justify-content: center;
   height: 100vh;
   padding: 20px;
+  box-sizing: border-box;
+  overflow: hidden;
+  background-color: #f0f8ff;
   font-family: "Arial", sans-serif;
 }
 
