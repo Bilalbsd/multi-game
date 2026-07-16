@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { FaArrowDown, FaRedoAlt } from "react-icons/fa";
+import GameLayout from "../../components/GameLayout/GameLayout";
 import "./connect-four.style.css";
 
 const ROWS = 6;
@@ -71,36 +72,74 @@ const ConnectFour: React.FC = () => {
   };
 
   return (
-    <div className="connect-four">
-      <h1>Puissance 4</h1>
-      <div className="board">
-        {board.map((row, rowIndex) => (
-          <div key={rowIndex} className="row">
-            {row.map((cell, colIndex) => (
-              <div
+    <GameLayout
+      accent="amber"
+      eyebrow="Duel local"
+      title="Puissance 4"
+      description="Faites tomber vos jetons et construisez une ligne de quatre avant votre adversaire."
+    >
+      <div className="connect-four">
+        <div className="player-legend" aria-label="Couleurs des joueurs">
+          <div className={`legend-item ${currentPlayer === 1 && !winner ? "is-active" : ""}`}>
+            <span className="legend-disc legend-disc--one" aria-hidden="true" />
+            <span>Joueur 1</span>
+          </div>
+          <span className="legend-divider">VS</span>
+          <div className={`legend-item ${currentPlayer === 2 && !winner ? "is-active" : ""}`}>
+            <span className="legend-disc legend-disc--two" aria-hidden="true" />
+            <span>Joueur 2</span>
+          </div>
+        </div>
+
+        <section className="connect-panel game-panel">
+          <div className="column-controls" aria-label="Choisir une colonne">
+            {Array.from({ length: COLS }, (_, colIndex) => (
+              <button
                 key={colIndex}
-                className={`cell ${
-                  cell === 1 ? "player1" : cell === 2 ? "player2" : ""
-                }`}
+                type="button"
+                className="drop-button"
                 onClick={() => dropPiece(colIndex)}
-              />
+                disabled={Boolean(winner || board[0][colIndex] !== 0)}
+                aria-label={`Jouer dans la colonne ${colIndex + 1}`}
+              >
+                <FaArrowDown aria-hidden="true" />
+              </button>
             ))}
           </div>
-        ))}
+
+          <div className="board" aria-label="Plateau de Puissance 4">
+            {board.map((row, rowIndex) => (
+              <div key={rowIndex} className="row">
+                {row.map((cell, colIndex) => (
+                  <span
+                    key={colIndex}
+                    role="img"
+                    className={`cell ${
+                      cell === 1 ? "player1" : cell === 2 ? "player2" : ""
+                    }`}
+                    aria-label={`Ligne ${rowIndex + 1}, colonne ${colIndex + 1} : ${
+                      cell === 1 ? "jeton du joueur 1" : cell === 2 ? "jeton du joueur 2" : "vide"
+                    }`}
+                  />
+                ))}
+              </div>
+            ))}
+          </div>
+
+          <div className="game-status" role="status" aria-live="polite">
+            <p className="game-status__label">État de la partie</p>
+            <p className="game-status__message">
+              {winner ? `Le joueur ${winner} remporte la manche !` : `Au tour du joueur ${currentPlayer}`}
+            </p>
+          </div>
+
+          <button type="button" onClick={resetGame} className="app-button app-button--primary">
+            <FaRedoAlt aria-hidden="true" />
+            Nouvelle manche
+          </button>
+        </section>
       </div>
-      {winner && (
-        <div className="winner">
-          Le joueur {winner} a gagné !
-          <button onClick={resetGame}>Rejouer</button>
-          <Link to="/" className="home-button">
-            Retour à l'accueil
-          </Link>
-        </div>
-      )}
-      {!winner && (
-        <div className="current-player">Au tour du joueur {currentPlayer}</div>
-      )}
-    </div>
+    </GameLayout>
   );
 };
 

@@ -1,86 +1,132 @@
 .tic-tac-toe {
-  font-family: "Comic Sans MS", cursive, sans-serif;
-  background-color: #f0f8ff;
-  box-sizing: border-box;
-  min-height: 100vh;
-  padding-top: 50px;
-  text-align: center;
+  width: min(100%, 42rem);
+  margin: 0 auto;
 }
 
-.tic-tac-toe h1 {
-  color: #ff69b4;
-  font-size: 48px;
-  text-shadow: 2px 2px #ffd700;
+.tic-tac-toe .score-board {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.tic-tac-toe .score-item {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  color: var(--text-muted);
+  background: var(--surface-soft);
+  transition: border-color 160ms ease, background 160ms ease;
+}
+
+.tic-tac-toe .score-item.is-active {
+  border-color: rgba(167, 139, 250, 0.5);
+  color: var(--text);
+  background: rgba(139, 92, 246, 0.12);
+}
+
+.tic-tac-toe .player {
+  width: 2rem;
+  height: 2rem;
+  display: grid;
+  place-items: center;
+  border-radius: 0.65rem;
+  font-weight: 950;
+}
+
+.tic-tac-toe .player--x {
+  color: #c4b5fd;
+  background: rgba(139, 92, 246, 0.2);
+}
+
+.tic-tac-toe .player--o {
+  color: #67e8f9;
+  background: rgba(34, 211, 238, 0.16);
+}
+
+.tic-tac-toe .score-label {
+  overflow: hidden;
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tic-tac-toe .score {
+  color: var(--text);
+  font-size: 1.35rem;
+}
+
+.tic-tac-toe .score-divider {
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  font-weight: 950;
+  letter-spacing: 0.12em;
 }
 
 .tic-tac-toe .board {
-  display: inline-block;
-  background-color: #ffd700;
-  border-radius: 10px;
-  padding: 10px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  display: grid;
+  gap: 0.55rem;
+  padding: 0.7rem;
+  border: 1px solid rgba(167, 139, 250, 0.3);
+  border-radius: 1.25rem;
+  background: rgba(8, 10, 18, 0.72);
 }
 
 .tic-tac-toe .board-row {
   display: flex;
+  gap: 0.55rem;
 }
 
 .tic-tac-toe .cell {
-  width: 100px;
-  height: 100px;
-  font-size: 48px;
-  font-weight: bold;
-  margin: 5px;
-  border: none;
-  border-radius: 10px;
-  background-color: #fff;
-  color: #ff69b4;
+  width: clamp(4.5rem, 22vw, 6.5rem);
+  height: clamp(4.5rem, 22vw, 6.5rem);
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  color: var(--text);
+  background: var(--surface-raised);
+  font-size: clamp(2rem, 9vw, 3.5rem);
+  font-weight: 950;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: transform 150ms ease, border-color 150ms ease, background 150ms ease;
 }
 
-.tic-tac-toe .cell:hover {
-  background-color: #ffe4e1;
-  transform: scale(1.05);
+.tic-tac-toe .cell:hover:not(:disabled) {
+  transform: translateY(-2px);
+  border-color: var(--accent-violet);
+  background: rgba(139, 92, 246, 0.14);
 }
 
-.tic-tac-toe .game-info {
-  margin-top: 20px;
-  font-size: 24px;
-  color: #4b0082;
+.tic-tac-toe .cell:disabled {
+  cursor: default;
+  opacity: 1;
 }
 
-.tic-tac-toe .reset-button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 18px;
-  font-weight: bold;
-  background-color: #ff69b4;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+.tic-tac-toe .cell--x {
+  color: #c4b5fd;
+  background: rgba(139, 92, 246, 0.16);
 }
 
-.tic-tac-toe .reset-button:hover {
-  background-color: #ff1493;
-  transform: scale(1.1);
+.tic-tac-toe .cell--o {
+  color: #67e8f9;
+  background: rgba(34, 211, 238, 0.13);
 }
 
-.tic-tac-toe .home-button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 18px;
-  font-weight: bold;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
+@media (max-width: 34rem) {
+  .tic-tac-toe .score-item {
+    grid-template-columns: auto auto;
+  }
 
-.tic-tac-toe .home-button:hover {
-  background-color: #45a049;
+  .tic-tac-toe .score-label {
+    display: none;
+  }
 }
